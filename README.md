@@ -8,7 +8,7 @@ Several small Arduino based projects.
 
 * *DDNS* − A simple, but useful library for DDNS on your Arduino board
 
-* *BrdVerify* - When you make a board of AVR MCU, you can using the library to test your board.   include: liquid,  short circuit, open circuit and Serial.  
+* *BrdVerify* - When you make a board of AVR MCU, you can using the library to test your board.   include: liquid,  short circuit, open circuit and Serial.    Here is a testbed board for you, see https://github.com/DFRobot/TestBed/tree/master
 
 
 
