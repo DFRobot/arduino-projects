@@ -19,8 +19,8 @@ EthernetClient client;
 DDNS_c DDNS;
 
 IPAddress ddnsIP(204,16,170,42); // http://nic.ChangeIP.com/nic/update
-char hostname[ ]   = "username";
-char userpwdb64[ ] = "x";  //http://www.functions-online.com/base64_encode.html    use->   username:password
+const char hostname[ ] PROGMEM  = "username";
+const char userpwdb64[ ] PROGMEM = "x";  //http://www.functions-online.com/base64_encode.html    use->   username:password
 
 
 void setup() {
