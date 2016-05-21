@@ -23,7 +23,7 @@ DDNS_c::DDNS_c( )
 
 }
 
-void DDNS_c::init( IPAddress ddnsPara, char *pUser, char *pPwd )
+void DDNS_c::init( IPAddress ddnsPara, const char *pUser, const char *pPwd )
 {
 	ddns = ddnsPara;
 	phostname = pUser;
@@ -41,24 +41,24 @@ void DDNS_c::update( )
 
   IPAddress ipadslold;
 
-  Serial.print("getting current IP \n");
-  Serial.print("connecting to ");
+  Serial.print(F("getting current IP \n"));
+  Serial.print(F("connecting to "));
   Serial.print(ipcheck);
 
   if (client.connect(ipcheck, 8245)) 
   {
-    Serial.println("\n       client connected ");
-    client.println("GET / HTTP/1.0");
+    Serial.println(F("\n       client connected "));
+    client.println(F("GET / HTTP/1.0"));
     client.println();
   } 
   else {
-    Serial.println("\nconnection failed");
+    Serial.println(F("\nconnection failed"));
   }
 
   while (!client.available() && timeout<50)
   {
     timeout++;
-    Serial.print("Time out ");
+    Serial.print(F("Time out "));
     Serial.println(timeout);
     delay(100);
   }
@@ -91,7 +91,7 @@ void DDNS_c::update( )
 
   if (!client.connected())
   {
-    Serial.println("disconnecting. \n");
+    Serial.println(F("disconnecting. \n"));
     client.stop();
     delay (1000);
     if ( ipadsl == INADDR_NONE )
@@ -100,23 +100,23 @@ void DDNS_c::update( )
 	}
 	else
     {
-      Serial.print("New IP: >");
+      Serial.print(F("New IP: >"));
       Serial.print(ipadsl);
-      Serial.println("<");             
+      Serial.println(F("<"));             
       for (int i=0; i<4; i++) {    //save in memory
         ipadslold[i] = EEPROM.read(i);
       }
-      Serial.print("Old IP: >");
+      Serial.print(F("Old IP: >"));
       Serial.print(ipadslold);
-      Serial.println("<");
+      Serial.println(F("<"));
       if (ipadsl != ipadslold)
       {
-        Serial.println("IP different from PUBLIC IP");
+        Serial.println(F("IP different from PUBLIC IP"));
         ddns_changer();
       }
       else
       {
-        Serial.println("same IP");
+        Serial.println(F("same IP"));
       }
 
       ipadslold = ipadsl;
@@ -124,7 +124,7 @@ void DDNS_c::update( )
       {
         EEPROM.write(i, ipadsl[i]);                // http://www.arduino.cc/en/Reference/EEPROMWrite
       }
-      Serial.println("IP saved !");
+      Serial.println(F("IP saved !"));
     }
 	
   }
@@ -135,36 +135,36 @@ void DDNS_c::update( )
 void DDNS_c::ddns_changer()
 {
   int timeout=0;
-  Serial.print("connecting to");
+  Serial.print(F("connecting to"));
   Serial.println(ddns);
 
-  Serial.print("Public IP");
+  Serial.print(F("Public IP"));
   Serial.println(ipadsl);
 
   if (client.connect(ddns, 80)) {
-    Serial.println("connected");
-    client.print("GET /nic/update?hostname=");
+    Serial.println(F("connected"));
+    client.print(F("GET /nic/update?hostname="));
     client.print(phostname);
-    client.print("&myip=");
+    client.print(F("&myip="));
     client.print(ipadsl);
-    client.println(" HTTP/1.1 ");
-    client.print("Host: ");
+    client.println(F(" HTTP/1.1 "));
+    client.print(F("Host: "));
     client.println(ddns);
 
-    client.print("Authorization: Basic ");
+    client.print(F("Authorization: Basic "));
     client.println(puserpwdb64);
 
-    client.println("User-Agent: DFRobot - jose at dfrobot.com");
+    client.println(F("User-Agent: DFRobot - jose at dfrobot.com"));
     client.println();
   } 
   else {
-    Serial.println("connection failed");
+    Serial.println(F("connection failed"));
   }
 
   while (!client.available() && timeout<50)
   {
     timeout++;
-    Serial.print("Time out");
+    Serial.print(F("Time out"));
     Serial.println(timeout);
     delay(100);
   }
@@ -181,7 +181,7 @@ void DDNS_c::ddns_changer()
   if (!client.connected())
   {
     Serial.println();
-    Serial.println("disconnecting.");
+    Serial.println(F("disconnecting."));
     client.stop();
   }
 }
